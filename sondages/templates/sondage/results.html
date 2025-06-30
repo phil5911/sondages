@@ -1,18 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Résultats — {{ question.question_text }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sondages/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
 
-<h1><{{question.question_text}}</h1>
+<h1>{{ question.question_text }}</h1>
+
+<h2>Résultats :</h2>
 <ul>
-    {%for c in question.choix_set.all%}
-      <li>{{c.choix_text}} -- {{c.votes}} vote</li>
-    {%endfor%}
+  {% for c in question.choix_set.all %}
+    <li>{{ c.choix_text }} — {{ c.votes }} vote{{ c.votes|pluralize }}</li>
+  {% empty %}
+    <li>Aucune option pour cette question.</li>
+  {% endfor %}
 </ul>
 
-<a href="{%url 'sondage:detail' question.id%}"> Voir la question</a>
+<div style="background:#fff; padding:1em; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.1); margin-top: 2em;">
+  <canvas id="resultChart" width="600" height="400"></canvas>
+</div>
+
+<script>
+  const data = {
+    labels: {{ choix_labels|safe }},
+    datasets: [{
+      label: "Nombre de votes",
+      data: {{ choix_votes|safe }},
+      backgroundColor: [
+        '#4CAF50', '#2196F3', '#FFC107', '#FF5722',
+        '#9575CD', '#00ACC1', '#F06292', '#A1887F'
+      ],
+      borderRadius: 6
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: '#333'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0,
+            color: '#444'
+          }
+        },
+        x: {
+          ticks: { color: '#444' }
+        }
+      }
+    }
+  };
+
+  new Chart(document.getElementById('resultChart'), config);
+</script>
+
+<p style="margin-top:2em;"><a href="{% url 'sondage:detail' question.id %}">🔁 Revenir à la question</a></p>
+
 </body>
 </html>
+

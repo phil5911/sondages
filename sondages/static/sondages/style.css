@@ -1,0 +1,84 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f9f9f9;
+    color: #2c3e50;
+    margin: 0;
+    padding: 2em;
+}
+
+h1, h2, h3 {
+    color: #34495e;
+}
+
+form {
+    background: #fff;
+    padding: 1.5em;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin-bottom: 2em;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+label {
+    display: inline-block;
+    margin-bottom: 0.5em;
+}
+
+input[type="radio"] {
+    margin-right: 0.5em;
+}
+
+input[type="submit"],
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.6em 1.2em;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 1em;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #2980b9;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+ul li {
+    background: #ffffff;
+    padding: 1em;
+    margin-bottom: 0.5em;
+    border-radius: 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+a {
+    text-decoration: none;
+    color: #3498db;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+canvas {
+    margin-top: 2em;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 1em;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    max-width: 100%;
+}
+

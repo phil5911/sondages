@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Sondage Demo Django</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sondages/style.css' %}">
+
 </head>
 <body>
 {%if questions%}

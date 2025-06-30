@@ -1,32 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>{{ question.question_text }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'sondages/style.css' %}">
+
 </head>
 <body>
 
-<!--<h1>{{question.question_text}}</h1>
-<ul>
-    {%for c in question.choix_set.all%}
-        <li>{{c.choix_text}}</li>
-    {%endfor%}
-</ul>-->
-
-<form action="{%url 'sondage:vote' question.id%}" method="post">
-{% csrf_token %}
+<form action="{% url 'sondage:vote' question.id %}" method="post">
+    {% csrf_token %}
     <fieldset>
-        <legend><h1>{{question.question_text}}</h1></legend>
-        {% if error_message %}<p><strong>{error_message}</strong></p>{% endif %}
+        <legend><h1>{{ question.question_text }}</h1></legend>
+
+        {% if error_message %}
+            <p style="color:red;"><strong>{{ error_message }}</strong></p>
+        {% endif %}
+
         {% for c in question.choix_set.all %}
-           <input type="radio" name="choix" id="choix"{{forloop.counter}} value="{{ c.id }}">
-           <label for="choix"{{forloop.counter}}>{{c.choix_text}}</label><br>
+            <input type="radio" name="choix" id="choix{{ forloop.counter }}" value="{{ c.id }}">
+            <label for="choix{{ forloop.counter }}">{{ c.choix_text }}</label><br>
         {% endfor %}
     </fieldset>
     <br>
     <input type="submit" value="Vote">
-
 </form>
+
+<hr>
+
+<h3>Commentaires :</h3>
+<ul>
+  {% for comment in comments %}
+    <li>
+      <strong>{{ comment.user.username }}</strong>
+      — <em>{{ comment.created_at|date:"d/m/Y H:i" }}</em><br>
+      {{ comment.text }}
+    </li>
+  {% empty %}
+    <li>Aucun commentaire pour le moment.</li>
+  {% endfor %}
+</ul>
+
+{% if user.is_authenticated %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Commenter</button>
+  </form>
+{% else %}
+  <p><a href="{% url 'login' %}?next={{ request.path }}">Connectez-vous pour commenter</a></p>
+{% endif %}
 
 </body>
 </html>
+
+
