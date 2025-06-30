@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1><{{question.question_text}}</h1>
+<ul>
+    {%for c in question.choix_set.all%}
+      <li>{{c.choix_text}} -- {{c.votes}} vote</li>
+    {%endfor%}
+</ul>
+
+<a href="{%url 'sondage:detail' question.id%}"> Voir la question</a>
+</body>
+</html>

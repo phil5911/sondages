@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--<h1>{{question.question_text}}</h1>
+<ul>
+    {%for c in question.choix_set.all%}
+        <li>{{c.choix_text}}</li>
+    {%endfor%}
+</ul>-->
+
+<form action="{%url 'sondage:vote' question.id%}" method="post">
+{% csrf_token %}
+    <fieldset>
+        <legend><h1>{{question.question_text}}</h1></legend>
+        {% if error_message %}<p><strong>{error_message}</strong></p>{% endif %}
+        {% for c in question.choix_set.all %}
+           <input type="radio" name="choix" id="choix"{{forloop.counter}} value="{{ c.id }}">
+           <label for="choix"{{forloop.counter}}>{{c.choix_text}}</label><br>
+        {% endfor %}
+    </fieldset>
+    <br>
+    <input type="submit" value="Vote">
+
+</form>
+
+</body>
+</html>
